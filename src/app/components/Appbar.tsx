@@ -19,7 +19,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { useAuth } from '@/contexts/authContext';
 
-const pages: string[] = [];
+const pages: string[] = ['Admin'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function ResponsiveAppBar() {
@@ -40,23 +40,22 @@ function ResponsiveAppBar() {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            sx={{
-              mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          >
-            LOGO
-          </Typography>
+          <Link href={'/'} passHref>
+            <Typography
+              variant="h6"
+              noWrap
+              sx={{
+                mr: 2,
+                display: { xs: 'none', md: 'flex' },
+                fontFamily: 'monospace',
+                fontWeight: 700,
+                letterSpacing: '.3rem',
+                color: 'inherit',
+                textDecoration: 'none',
+              }}
+            >
+              LOGO
+            </Typography></Link>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -88,31 +87,31 @@ function ResponsiveAppBar() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                <Link key={page} href={'/admin'}>
                   <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
+                </Link>
               ))}
             </Menu>
           </Box>
           <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            sx={{
-              mr: 2,
-              display: { xs: 'flex', md: 'none' },
-              flexGrow: 1,
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          >
-            LOGO
-          </Typography>
+          {/* <Link href={'/'} passHref>
+            <Typography
+              variant="h5"
+              noWrap
+              sx={{
+                mr: 2,
+                display: { xs: 'flex', md: 'none' },
+                flexGrow: 1,
+                fontFamily: 'monospace',
+                fontWeight: 700,
+                letterSpacing: '.3rem',
+                color: 'inherit',
+                textDecoration: 'none',
+              }}
+            >
+              LOGO
+            </Typography>
+          </Link> */}
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
@@ -120,7 +119,9 @@ function ResponsiveAppBar() {
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                {page}
+                <Link href={'/admin'} passHref>
+                  {page}
+                </Link>
               </Button>
             ))}
           </Box>
