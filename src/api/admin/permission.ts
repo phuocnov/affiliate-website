@@ -1,9 +1,20 @@
 import { IPermission } from "@/types";
 import axios from "@/utils/axios";
 
-export const getPermissionListAPI = async () => {
+export const getPermissionListAPI = async ({
+  code,
+  desc,
+}: {
+  code?: string;
+  desc?: string;
+}) => {
   try {
-    const response = await axios.get("/admin/permission");
+    const response = await axios.get(
+      "/admin/permission?code=" +
+        (code !== undefined ? code : "") +
+        "&desc=" +
+        (desc !== undefined ? desc : "")
+    );
     return response.data;
   } catch (error) {
     throw error;

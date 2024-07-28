@@ -1,9 +1,20 @@
 import { IBrand } from "@/types";
 import axios from "@/utils/axios";
 
-export const getBrandListAPI = async () => {
+export const getBrandListAPI = async ({
+  code,
+  desc,
+}: {
+  code?: string;
+  desc?: string;
+}) => {
   try {
-    const response = await axios.get("/admin/brand");
+    const response = await axios.get(
+      "/admin/brand?code=" +
+        (code !== undefined ? code : "") +
+        "&desc=" +
+        (desc !== undefined ? desc : "")
+    );
     return response.data;
   } catch (error) {
     throw error;

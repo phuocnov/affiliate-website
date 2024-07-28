@@ -16,7 +16,21 @@ export interface IQueryProduct {
 
 export const getProductsAPI = async (query: IQueryProduct) => {
   try {
-    const response = await axios.get("/admin/product", { data: query });
+    const queryParams = Object.keys(query)
+      .filter(
+        (key): key is keyof IQueryProduct =>
+          query[key as keyof IQueryProduct] !== undefined &&
+          query[key as keyof IQueryProduct] !== null
+      )
+      .map(
+        (key) =>
+          `${encodeURIComponent(key)}=${encodeURIComponent(
+            query[key as keyof IQueryProduct] as string
+          )}`
+      )
+      .join("&");
+
+    const response = await axios.get(`/admin/product?${queryParams}`);
     return response.data;
   } catch (error) {
     throw error;

@@ -8,15 +8,15 @@ import { IBrand } from "@/types";
 import { useEffect, useState } from "react";
 
 export const useBrand = () => {
-  const [users, setBrands] = useState<IBrand[]>([]);
+  const [brands, setBrands] = useState<IBrand[]>([]);
 
   useEffect(() => {
-    fetchBrands();
+    handleQuery({});
   }, []);
 
-  const fetchBrands = async () => {
+  const handleQuery = async (query: { code?: string }) => {
     try {
-      const data = await getBrandListAPI();
+      const data = await getBrandListAPI(query);
       setBrands(data);
     } catch (error) {
       setBrands([]);
@@ -25,8 +25,8 @@ export const useBrand = () => {
 
   const createBrand = async (brand: IBrand) => {
     try {
-      createBrandAPI(brand);
-      fetchBrands();
+      await createBrandAPI(brand);
+      await handleQuery({});
     } catch (error) {
       throw error;
     }
@@ -34,8 +34,8 @@ export const useBrand = () => {
 
   const updateBrand = async (brand: IBrand) => {
     try {
-      updateBrandAPI(brand);
-      fetchBrands();
+      await updateBrandAPI(brand);
+      await handleQuery({});
     } catch (error) {
       throw error;
     }
@@ -44,11 +44,11 @@ export const useBrand = () => {
   const deleteBrand = async (code: string) => {
     try {
       await deleteBrandAPI(code);
-      fetchBrands();
+      await handleQuery({});
     } catch (error) {
       throw error;
     }
   };
 
-  return { users, fetchBrands, createBrand, updateBrand, deleteBrand };
+  return { brands, handleQuery, createBrand, updateBrand, deleteBrand };
 };

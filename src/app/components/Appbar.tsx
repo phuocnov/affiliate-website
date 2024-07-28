@@ -87,7 +87,7 @@ function ResponsiveAppBar() {
               }}
             >
               {pages.map((page) => (
-                <Link key={page} href={'/admin'}>
+                <Link key={page} href={'/admin/product'}>
                   <Typography textAlign="center">{page}</Typography>
                 </Link>
               ))}

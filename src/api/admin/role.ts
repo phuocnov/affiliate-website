@@ -1,9 +1,20 @@
 import { IRole } from "@/types";
 import axios from "@/utils/axios";
 
-export const getRoleListAPI = async () => {
+export const getRoleListAPI = async ({
+  code,
+  desc,
+}: {
+  code?: string;
+  desc?: string;
+}) => {
   try {
-    const response = await axios.get("/admin/role");
+    const response = await axios.get(
+      "/admin/role?code=" +
+        (code !== undefined ? code : "") +
+        "&desc=" +
+        (desc !== undefined ? desc : "")
+    );
     return response.data;
   } catch (error) {
     throw error;

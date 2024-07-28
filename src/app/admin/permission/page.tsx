@@ -1,7 +1,7 @@
 'use client';
 
 import Page from "@/app/components/Page";
-import { useBrand } from "@/hooks/admin/useBrand";
+import { usePermission } from "@/hooks/admin/usePermission";
 import { useCategory } from "@/hooks/admin/useCategory";
 import { useUser } from "@/hooks/admin/useUser";
 import { useHandleModal } from "@/hooks/useModal";
@@ -37,7 +37,7 @@ const style = {
 };
 
 export default function CategoryPage() {
-    const { handleQuery, brands } = useBrand();
+    const { handleQuery, permissions } = usePermission();
     const { open, handleOpen, handleClose, selectedId, isEdit } = useHandleModal();
 
     useEffect(() => {
@@ -56,7 +56,7 @@ export default function CategoryPage() {
                     width: '100%'
                 }
             }>
-                <Typography variant="h4" >Brand report</Typography>
+                <Typography variant="h4" >Permission report</Typography>
                 <Button onClick={() => { handleOpen() }}>Create</Button>
                 <Button onClick={() => { handleQuery }}>Refresh</Button>
 
@@ -73,13 +73,13 @@ export default function CategoryPage() {
                             </TableCell>
                         ))}
                     </TableHead>
-                    {brands.length && brands.map((brand, index) => (
+                    {permissions.length && permissions.map((permission, index) => (
                         <TableBody key={index}>
                             <TableCell>{index}</TableCell>
-                            <TableCell>{brand.code}</TableCell>
-                            <TableCell>{brand.desc}</TableCell>
+                            <TableCell>{permission.code}</TableCell>
+                            <TableCell>{permission.desc}</TableCell>
                             <TableCell>
-                                <Button onClick={() => handleOpen(brand.code)}>Edit</Button>
+                                <Button onClick={() => handleOpen(permission.code)}>Edit</Button>
                                 <Button>Delete</Button>
                             </TableCell>
                         </TableBody>
@@ -107,15 +107,15 @@ const CategoryModal = ({
         desc: '',
     });
 
-    const { handleQuery, brands, createBrand, updateBrand } = useBrand();
+    const { handleQuery, permissions, createPermission, updatePermission } = usePermission();
 
     useEffect(() => {
         const getCategoryInfo = async () => {
             if (isEdit && selectedId) {
                 await handleQuery({ code: selectedId });
                 setFormInput({
-                    code: brands[0].code,
-                    desc: brands[0].desc,
+                    code: permissions[0].code,
+                    desc: permissions[0].desc,
                 });
             }
         };
@@ -134,9 +134,9 @@ const CategoryModal = ({
     const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
         evt.preventDefault();
         if (isEdit) {
-            updateBrand(formInput);
+            updatePermission(formInput);
         } else {
-            createBrand(formInput);
+            createPermission(formInput);
         }
         handleClose();
     };
@@ -156,7 +156,7 @@ const CategoryModal = ({
     >
         <Box>
             <Typography id="modal-modal-title" variant="h6" component="h2">
-                {isEdit ? 'Edit' : 'Create'} Brand
+                {isEdit ? 'Edit' : 'Create'} Permission
             </Typography>
 
             <form onSubmit={handleSubmit}>
