@@ -2,8 +2,6 @@
 
 import Page from "@/app/components/Page";
 import { useRole } from "@/hooks/admin/useRole";
-import { useCategory } from "@/hooks/admin/useCategory";
-import { useUser } from "@/hooks/admin/useUser";
 import { useHandleModal } from "@/hooks/useModal";
 import { Box, Button, Modal, Table, TableBody, TableCell, TableHead, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
