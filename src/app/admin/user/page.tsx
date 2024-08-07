@@ -18,6 +18,10 @@ const tableHead = [
     label: 'Password',
   },
   {
+    id: 'role',
+    label: 'Role',
+  },
+  {
     id: 'action',
     label: 'Action',
   },
@@ -36,6 +40,8 @@ const style = {
 export default function UserPage() {
   const { users, fetchUsers } = useUser();
   const { open, handleOpen, handleClose, selectedId, isEdit } = useHandleModal();
+  const [selectedUser, setSelectedUser] = useState<IUser>();
+
   useEffect(() => {
     fetchUsers({});
   }, []);
@@ -47,6 +53,7 @@ export default function UserPage() {
         handleClose={handleClose}
         selectedId={selectedId}
         isEdit={isEdit}
+        user={selectedUser}
       />
 
       <Box sx={
@@ -81,8 +88,14 @@ export default function UserPage() {
             <TableBody key={user.username}>
               <TableCell>{user.username}</TableCell>
               <TableCell>{user.password}</TableCell>
+              <TableCell>{user.role}</TableCell>
+
               <TableCell>
-                <Button onClick={() => handleOpen(user.username)}>Edit</Button>
+                <Button onClick={() => {
+                  handleOpen(user.username, () => {
+                    setSelectedUser(user);
+                  });
+                }}>Edit</Button>
                 <Button>Delete</Button>
               </TableCell>
             </TableBody>
@@ -97,12 +110,14 @@ const UserModal = ({
   open,
   handleClose,
   selectedId,
-  isEdit
+  isEdit,
+  user,
 }: {
   open: boolean;
   handleClose: () => void;
   selectedId: string | null;
   isEdit: boolean;
+  user?: IUser;
 }) => {
   const [formInput, setFormInput] = useState({
     username: '',
@@ -110,26 +125,18 @@ const UserModal = ({
     role: '',
   });
 
-  const { users, createUser, updateUser, fetchUsers } = useUser();
+  const { createUser, updateUser, fetchUsers } = useUser();
   const { roles, handleQuery } = useRole();
 
   useEffect(() => {
-    const getUser = async () => {
-      await fetchUsers({ username: selectedId?.toString() });
+    if (isEdit) {
       setFormInput({
-        username: users[0].username,
-        password: users[0].password,
-        role: users[0].role,
+        username: user?.username || '',
+        password: user?.password || '',
+        role: user?.role || '',
       });
     }
-    if (isEdit) {
-      getUser();
-    }
-  }, [selectedId]);
-
-  useEffect(() => {
-    handleQuery({});
-  }, []);
+  }, [user, isEdit]);
 
   const handleInput: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (evt) => {
     const name = evt.target.name;
@@ -168,7 +175,7 @@ const UserModal = ({
       backgroundColor: 'white',
     }}>
       <Typography id="modal-modal-title" variant="h6" component="h2">
-        {'Create'} User
+        {isEdit ? 'Edit' : 'Create'} User
       </Typography>
 
       <form onSubmit={handleSubmit}>
@@ -182,7 +189,7 @@ const UserModal = ({
             label="Username"
             name="username"
             value={formInput.username}
-            disabled
+            disabled={isEdit}
             onChange={handleInput}
           />
           <TextField

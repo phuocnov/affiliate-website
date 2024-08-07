@@ -62,3 +62,12 @@ export const deleteProductAPI = async (product_id: string) => {
     throw error;
   }
 };
+
+export const getTopVisitedProductsAPI = async () => {
+  try {
+    const response = await axios.get(`/admin/product/top-visited`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

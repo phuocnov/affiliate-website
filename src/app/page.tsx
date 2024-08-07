@@ -13,15 +13,15 @@ export default function Home() {
   const { brands, handleQuery: BrandHandleQuery } = useBrand();
   const [searchParams, setSearchParams] = useState({
     name: "",
-    brand: "",
-    category: "",
+    brand: "All",
+    category: "All",
   });
 
   useEffect(() => {
     handleQuery({
       product_id: searchParams.name,
-      brand: searchParams.brand,
-      category: searchParams.category,
+      brand: searchParams.brand === "All" ? undefined : searchParams.brand,
+      category: searchParams.category === "All" ? undefined : searchParams.category,
     });
   }, [searchParams]);
 
@@ -31,11 +31,11 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center p-24">
-      <h1 className="text-4xl font-bold">Product</h1>
       <Box sx={{
         display: 'flex',
         flexDirection: 'row',
         gap: '10px',
+        alignItems: 'center',
       }}>
         <TextField placeholder="Search" value={searchParams.name} onChange={
           (e) => setSearchParams((prev) => ({ ...prev, name: e.target.value }))
@@ -48,7 +48,7 @@ export default function Home() {
           value={searchParams.category}
           onChange={(e) => setSearchParams((prev) => ({ ...prev, category: e.target.value as string }))}
         >
-          <MenuItem value="">All</MenuItem>
+          <MenuItem value="All">All</MenuItem>
           {categories.map((category) => (
             <MenuItem value={category.code}>{category.code}</MenuItem>
           ))}
@@ -62,7 +62,7 @@ export default function Home() {
           value={searchParams.brand}
           onChange={(e) => setSearchParams((prev) => ({ ...prev, brand: e.target.value as string }))}
         >
-          <MenuItem value="">All</MenuItem>
+          <MenuItem value="All">All</MenuItem>
           {brands.map((brands) => (
             <MenuItem value={brands.code}>{brands.code}</MenuItem>
           ))}
@@ -72,10 +72,13 @@ export default function Home() {
         display: 'flex',
         flexDirection: 'row',
         backgroundColor: 'red',
+        width: '100vh',
       }}>
         <img src="https://cf.shopee.vn/file/sg-11134258-7rdvj-lyc2r3xi52767f_xxhdpi" />
-        <img src="https://cf.shopee.vn/file/sg-11134258-7rdvg-lybxra0hz1d65c_xhdpi" />
-        <img src="https://cf.shopee.vn/file/vn-11134258-7r98o-lyc387bdljyl08_xxhdpi" />
+        <Box>
+          <img src="https://cf.shopee.vn/file/sg-11134258-7rdvg-lybxra0hz1d65c_xhdpi" />
+          <img src="https://cf.shopee.vn/file/vn-11134258-7r98o-lyc387bdljyl08_xxhdpi" />
+        </Box>
       </Box>
       <div className="grid grid-cols-3 gap-4">
         {products.map((product) => (

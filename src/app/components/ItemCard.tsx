@@ -1,3 +1,4 @@
+import useProduct from "@/hooks/admin/useProduct";
 import { IProduct } from "@/types";
 import { Box, Button, Typography } from "@mui/material";
 import Image from "next/image";
@@ -6,6 +7,19 @@ import React from "react";
 export const ItemCard = ({ item }: {
     item: IProduct
 }) => {
+
+    const { updateProduct } = useProduct();
+
+    const handleVisit = () => {
+        if (!item.product_id) return;
+
+        updateProduct(item.product_id, {
+            ...item,
+            visit: item.visit + 1,
+        })
+        window.open(item.affiliate_link);
+    };
+
     return <Box
         sx={{
             display: 'flex',
@@ -51,7 +65,10 @@ export const ItemCard = ({ item }: {
         <Box>
             <Typography>ALL TIME QUANTITY SOLD: {item.all_time_quantity_sold}</Typography>
         </Box>
+        <Box>
+            <Typography>VISIT: {item.visit}</Typography>
+        </Box>
 
-        <Button variant="outlined" onClick={() => { window.open(item.affiliate_link) }}>Visit</Button>
-    </Box>
+        <Button variant="outlined" onClick={handleVisit}>Visit</Button>
+    </Box >
 };

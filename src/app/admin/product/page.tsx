@@ -103,12 +103,17 @@ export default function CategoryPage() {
                     alignItems: 'center',
                     padding: '10px',
                     borderBottom: '1px solid #000',
-                    width: '100%'
+                    width: '100%',
                 }
             }>
                 <Typography variant="h4" >Product report</Typography>
-                <Button onClick={() => { handleOpen() }}>Create</Button>
-                <Button onClick={() => { handleQuery }}>Refresh</Button>
+                <Box sx={{
+                    display: 'flex',
+                    gap: '10px',
+                }}>
+                    <Button variant="contained" onClick={() => { handleOpen() }}>Create</Button>
+                    <Button variant="contained" onClick={() => { handleQuery }}>Refresh</Button>
+                </Box>
 
             </Box>
             <Box>

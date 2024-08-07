@@ -5,7 +5,7 @@ export const useHandleModal = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
-  const handleOpen = (id?: string) => {
+  const handleOpen = (id?: string, actions?: () => void) => {
     setOpen(true);
     if (id) {
       setIsEdit(true);
@@ -14,6 +14,8 @@ export const useHandleModal = () => {
       setIsEdit(false);
       setSelectedId(null);
     }
+
+    actions && actions();
     return id;
   };
 

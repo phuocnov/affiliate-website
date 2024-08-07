@@ -57,7 +57,7 @@ export default function CategoryPage() {
         }
       }>
         <Typography variant="h4" >Brand report</Typography>
-        <Button onClick={() => { handleOpen() }}>Create</Button>
+        <Button variant="contained" onClick={() => { handleOpen() }}>Create</Button>
         <Button onClick={() => { handleQuery }}>Refresh</Button>
 
       </Box>
