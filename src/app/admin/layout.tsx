@@ -25,14 +25,7 @@ const MenuItems = [
     title: 'User',
     href: PATH.admin.user,
   },
-  {
-    title: 'Permission',
-    href: PATH.admin.permission,
-  },
-  {
-    title: 'Role',
-    href: PATH.admin.role,
-  },
+
 ]
 
 const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {

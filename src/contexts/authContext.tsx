@@ -25,7 +25,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     if (token) {
       getCurrentUser().then((data) => {
-        setUser({ username: data.username });
+        setUser({ username: data.username, password: "", role: data.role });
         setIsAuthenticated(true);
       }).catch(() => {
         setUser(null);
@@ -41,7 +41,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       const data = await userLogin({ username, password });
       saveToken(data.token);
-      setUser({ username: data.username });
+      setUser({ username: data.username, password: "", role: data.role });
       setIsAuthenticated(true);
       setLoginState((prev) => prev + 1); // Trigger useEffect
     } catch (error) {
@@ -61,7 +61,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       const { data } = await userRegister({ username, password });
       saveToken(data.token);
-      setUser({ username: data.username });
+      setUser({ username: data.username, password: "", role: data.role });
       setIsAuthenticated(true);
       setLoginState((prev) => prev + 1); // Trigger useEffect
     } catch (error) {

@@ -3,7 +3,7 @@ import axios from "@/utils/axios";
 export const getUserListAPI = async ({ username }: { username?: string }) => {
   try {
     const response = await axios.get(
-      `/admin/user?username=${username ? username : ""}`
+      `/admin/user?${new URLSearchParams({ username: username || "" })}`
     );
     return response.data;
   } catch (error) {
@@ -26,6 +26,7 @@ export const createUserAPI = async (data: {
 export const updateUserAPI = async (data: {
   username: string;
   password: string;
+  role: string;
 }) => {
   try {
     const response = await axios.put(`/admin/user`, data);

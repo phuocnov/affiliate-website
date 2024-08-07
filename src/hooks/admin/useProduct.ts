@@ -5,7 +5,7 @@ import {
   IQueryProduct,
   updateProductAPI,
 } from "@/api/admin/product";
-import { ICreateProduct, IProduct } from "@/types";
+import { IProduct } from "@/types";
 import { useEffect, useState } from "react";
 
 const useProduct = () => {

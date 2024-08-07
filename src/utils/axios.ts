@@ -1,16 +1,12 @@
 import axios, { AxiosError } from "axios";
 import { getToken } from "@/helpers/local-storage";
 
-axios.defaults.timeout = 90000; // 90s
-// axios.defaults.baseURL =
-//   process.env.API_SERVER_URL || 'https://api.revpayment.io';
-
+axios.defaults.timeout = 90000;
 axios.defaults.baseURL = "http://localhost:3001/api";
 const token = getToken();
 if (token) {
   axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 }
-// axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 axios.defaults.headers.common["Content-Type"] = `application/json`;
 const apiErrorMessage = (error: AxiosError) => {
   if (typeof error === "string") {

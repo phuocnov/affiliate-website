@@ -11,12 +11,12 @@ export const useUser = () => {
   const [users, setUsers] = useState<IUser[]>([]);
 
   useEffect(() => {
-    fetchUsers();
+    fetchUsers({});
   }, []);
 
-  const fetchUsers = async () => {
+  const fetchUsers = async ({ username }: { username?: string }) => {
     try {
-      const data = await getUserListAPI({});
+      const data = await getUserListAPI({ username });
       setUsers(data);
     } catch (error) {
       setUsers([]);
@@ -35,7 +35,7 @@ export const useUser = () => {
         username: username,
         password: password,
       });
-      fetchUsers();
+      fetchUsers({});
     } catch (error) {
       throw error;
     }
@@ -44,16 +44,19 @@ export const useUser = () => {
   const updateUser = async ({
     username,
     password,
+    role,
   }: {
     username: string;
     password: string;
+    role: string;
   }) => {
     try {
       updateUserAPI({
         username: username,
         password: password,
+        role: role,
       });
-      fetchUsers();
+      fetchUsers({});
     } catch (error) {
       throw error;
     }
@@ -62,7 +65,7 @@ export const useUser = () => {
   const deleteUser = async (username: string) => {
     try {
       await deleteUserAPI(username);
-      fetchUsers();
+      fetchUsers({});
     } catch (error) {
       throw error;
     }

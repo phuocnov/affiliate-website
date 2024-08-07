@@ -3,7 +3,6 @@ import axios from "@/utils/axios";
 
 export interface IQueryProduct {
   product_id?: string;
-  name?: string;
   short_description?: string;
   long_description?: string;
   thumbnail_url?: string;

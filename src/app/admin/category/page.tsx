@@ -153,7 +153,9 @@ const CategoryModal = ({
     aria-describedby="modal-modal-description"
     sx={style}
   >
-    <Box>
+    <Box sx={{
+      backgroundColor: 'white',
+    }}>
       <Typography id="modal-modal-title" variant="h6" component="h2">
         {isEdit ? 'Edit' : 'Create'} Category
       </Typography>

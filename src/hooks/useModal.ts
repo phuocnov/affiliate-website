@@ -14,6 +14,7 @@ export const useHandleModal = () => {
       setIsEdit(false);
       setSelectedId(null);
     }
+    return id;
   };
 
   const handleClose = () => {

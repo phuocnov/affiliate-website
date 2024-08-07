@@ -30,6 +30,7 @@ function ResponsiveAppBar() {
   };
 
   const { user, logout, isAuthenticated } = useAuth();
+  console.log(user);
 
   return (
     <AppBar position="static">
@@ -64,30 +65,6 @@ function ResponsiveAppBar() {
             >
               <MenuIcon />
             </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: 'block', md: 'none' },
-              }}
-            >
-              {pages.map((page) => (
-                <Link key={page} href={'/admin/product'}>
-                  <Typography textAlign="center">{page}</Typography>
-                </Link>
-              ))}
-            </Menu>
           </Box>
           <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
@@ -97,9 +74,9 @@ function ResponsiveAppBar() {
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                <Link href={'/admin'} passHref>
+                {user?.role === 'admin' && <Link href={'/admin'} passHref>
                   {page}
-                </Link>
+                </Link>}
               </Button>
             ))}
           </Box>

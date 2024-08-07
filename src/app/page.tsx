@@ -19,7 +19,7 @@ export default function Home() {
 
   useEffect(() => {
     handleQuery({
-      name: searchParams.name,
+      product_id: searchParams.name,
       brand: searchParams.brand,
       category: searchParams.category,
     });
@@ -28,7 +28,6 @@ export default function Home() {
   useEffect(() => {
     CategoryHandleQuery({});
   }, []);
-
 
   return (
     <main className="flex min-h-screen flex-col items-center p-24">
