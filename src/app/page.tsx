@@ -1,10 +1,11 @@
 'use client';
 import useProduct from "@/hooks/admin/useProduct";
 import { ItemCard } from "./components/ItemCard";
-import { Box, MenuItem, Select, TextField, Typography } from "@mui/material";
+import { Box, Button, MenuItem, Select, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useCategory } from "@/hooks/admin/useCategory";
 import { useBrand } from "@/hooks/admin/useBrand";
+import { colors } from "@/utils/color";
 
 
 export default function Home() {
@@ -34,10 +35,26 @@ export default function Home() {
       <Box sx={{
         display: 'flex',
         flexDirection: 'row',
+        backgroundColor: 'red',
+        width: '100%',
+      }}>
+        <img src="https://cf.shopee.vn/file/sg-11134258-7rdvj-lyc2r3xi52767f_xxhdpi" />
+        <Box>
+          <img src="https://cf.shopee.vn/file/sg-11134258-7rdvg-lybxra0hz1d65c_xhdpi" />
+          <img src="https://cf.shopee.vn/file/vn-11134258-7r98o-lyc387bdljyl08_xxhdpi" />
+        </Box>
+      </Box>
+      <Box sx={{
+        display: 'flex',
+        flexDirection: 'row',
         gap: '10px',
         alignItems: 'center',
+        backgroundColor: colors.orange[500],
+        width: '100%',
+        padding: '20px',
       }}>
-        <TextField placeholder="Search" value={searchParams.name} onChange={
+        <Typography>Filter</Typography>
+        <TextField placeholder="Tim kiem san pham" value={searchParams.name} onChange={
           (e) => setSearchParams((prev) => ({ ...prev, name: e.target.value }))
         } />
         <Typography>Category</Typography>
@@ -71,15 +88,20 @@ export default function Home() {
       <Box sx={{
         display: 'flex',
         flexDirection: 'row',
-        backgroundColor: 'red',
-        width: '100vh',
+        backgroundColor: colors.orange[500],
+        width: '100%',
+        justifyContent: 'space-around',
       }}>
-        <img src="https://cf.shopee.vn/file/sg-11134258-7rdvj-lyc2r3xi52767f_xxhdpi" />
-        <Box>
-          <img src="https://cf.shopee.vn/file/sg-11134258-7rdvg-lybxra0hz1d65c_xhdpi" />
-          <img src="https://cf.shopee.vn/file/vn-11134258-7r98o-lyc387bdljyl08_xxhdpi" />
-        </Box>
+        {categories.map((category) => (
+          <Button variant="outlined" onClick={() => {
+            setSearchParams({
+              ...searchParams,
+              category: category.code
+            })
+          }}>{category.code}</Button>
+        ))}
       </Box>
+
       <div className="grid grid-cols-3 gap-4">
         {products.map((product) => (
           <ItemCard item={product} />

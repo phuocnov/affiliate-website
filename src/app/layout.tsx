@@ -4,7 +4,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 import ResponsiveAppBar from "@/app/components/Appbar";
-import { AuthProvider } from "@/contexts/authContext";
+import { AuthProvider, useAuth } from "@/contexts/authContext";
 
 const inter = Inter({ subsets: ["latin"] });
 

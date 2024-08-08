@@ -6,6 +6,7 @@ import { useCategory } from "@/hooks/admin/useCategory";
 import useProduct from "@/hooks/admin/useProduct";
 import { useHandleModal } from "@/hooks/useModal";
 import { ICreateProduct } from "@/types";
+import { colors } from "@/utils/color";
 import { Box, Button, MenuItem, Modal, Select, Table, TableBody, TableCell, TableHead, TextField, Typography } from "@mui/material";
 import { all } from "axios";
 import { useEffect, useState } from "react";
@@ -89,6 +90,25 @@ const style = {
 export default function CategoryPage() {
     const { handleQuery, products } = useProduct();
     const { open, handleOpen, handleClose, selectedId, isEdit } = useHandleModal();
+    const { categories, handleQuery: CategoryHandleQuery } = useCategory();
+    const { brands, handleQuery: BrandHandleQuery } = useBrand();
+    const [searchParams, setSearchParams] = useState({
+        name: "",
+        brand: "All",
+        category: "All",
+    });
+
+    useEffect(() => {
+        handleQuery({
+            product_id: searchParams.name,
+            brand: searchParams.brand === "All" ? undefined : searchParams.brand,
+            category: searchParams.category === "All" ? undefined : searchParams.category,
+        });
+    }, [searchParams]);
+
+    useEffect(() => {
+        CategoryHandleQuery({});
+    }, []);
 
     useEffect(() => {
         handleQuery({});
@@ -109,6 +129,43 @@ export default function CategoryPage() {
                 <Typography variant="h4" >Product report</Typography>
                 <Box sx={{
                     display: 'flex',
+                    flexDirection: 'row',
+                    gap: '10px',
+                    alignItems: 'center',
+                }}>
+                    <TextField placeholder="Search" value={searchParams.name} onChange={
+                        (e) => setSearchParams((prev) => ({ ...prev, name: e.target.value }))
+                    } />
+                    <Typography>Category</Typography>
+                    <Select sx={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                    }}
+                        value={searchParams.category}
+                        onChange={(e) => setSearchParams((prev) => ({ ...prev, category: e.target.value as string }))}
+                    >
+                        <MenuItem value="All">All</MenuItem>
+                        {categories.map((category) => (
+                            <MenuItem value={category.code}>{category.code}</MenuItem>
+                        ))}
+                    </Select>
+
+                    <Typography>Brand</Typography>
+                    <Select sx={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                    }}
+                        value={searchParams.brand}
+                        onChange={(e) => setSearchParams((prev) => ({ ...prev, brand: e.target.value as string }))}
+                    >
+                        <MenuItem value="All">All</MenuItem>
+                        {brands.map((brands) => (
+                            <MenuItem value={brands.code}>{brands.code}</MenuItem>
+                        ))}
+                    </Select>
+                </Box>
+                <Box sx={{
+                    display: 'flex',
                     gap: '10px',
                 }}>
                     <Button variant="contained" onClick={() => { handleOpen() }}>Create</Button>
@@ -116,7 +173,10 @@ export default function CategoryPage() {
                 </Box>
 
             </Box>
-            <Box>
+            <Box sx={{
+                overflow: 'scroll',
+                height: 'calc(100vh - 200px)',
+            }}>
                 <Table>
                     <TableHead>
                         {tableHead.map((headCell) => (
