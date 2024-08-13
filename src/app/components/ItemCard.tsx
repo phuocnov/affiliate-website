@@ -1,22 +1,17 @@
-import useProduct from "@/hooks/admin/useProduct";
+import { visitProductAPI } from "@/api/admin/product";
+import { useAuth } from "@/contexts/authContext";
 import { IProduct } from "@/types";
 import { Box, Button, Typography } from "@mui/material";
-import Image from "next/image";
 import React from "react";
 
 export const ItemCard = ({ item }: {
     item: IProduct
 }) => {
-
-    const { updateProduct } = useProduct();
-
+    const {user} = useAuth();
     const handleVisit = () => {
         if (!item.product_id) return;
 
-        updateProduct(item.product_id, {
-            ...item,
-            visit: item.visit + 1,
-        })
+       visitProductAPI({ product_id: item.product_id, username: user?.username || "" }); 
         window.open(item.affiliate_link);
     };
 

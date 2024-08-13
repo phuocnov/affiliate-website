@@ -19,13 +19,13 @@ export const getProductsAPI = async (query: IQueryProduct) => {
       .filter(
         (key): key is keyof IQueryProduct =>
           query[key as keyof IQueryProduct] !== undefined &&
-          query[key as keyof IQueryProduct] !== null
+          query[key as keyof IQueryProduct] !== null,
       )
       .map(
         (key) =>
           `${encodeURIComponent(key)}=${encodeURIComponent(
-            query[key as keyof IQueryProduct] as string
-          )}`
+            query[key as keyof IQueryProduct] as string,
+          )}`,
       )
       .join("&");
 
@@ -66,6 +66,24 @@ export const deleteProductAPI = async (product_id: string) => {
 export const getTopVisitedProductsAPI = async () => {
   try {
     const response = await axios.get(`/admin/product/top-visited`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const visitProductAPI = async ({
+  product_id,
+  username,
+}: {
+  product_id: string;
+  username: string;
+}) => {
+  try {
+    const response = await axios.post(`/admin/product/visit`, {
+      product_id,
+      username,
+    });
     return response.data;
   } catch (error) {
     throw error;
